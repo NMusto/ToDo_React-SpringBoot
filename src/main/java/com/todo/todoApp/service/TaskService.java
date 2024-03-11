@@ -6,6 +6,10 @@ import com.todo.todoApp.persistence.repository.TaskRepository;
 import com.todo.todoApp.service.dto.TaskInDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 @Service
 public class TaskService {
 
@@ -20,6 +24,10 @@ public class TaskService {
    public Task createTask(TaskInDTO taskInDTO) {
         Task task = taskInDTOToTask.map(taskInDTO);
         return this.taskRepository.save(task);
+   }
+
+   public List<Task> findAll() {
+        return this.taskRepository.findAll();
    }
 
 }
