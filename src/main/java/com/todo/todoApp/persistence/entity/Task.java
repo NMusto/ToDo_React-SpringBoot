@@ -19,5 +19,6 @@ public class Task {
     private LocalDateTime creationDate;
     private LocalDateTime eta;
     private boolean finished;
+    @Enumerated(EnumType.STRING)
     private TaskStatus taskStatus;
 }
