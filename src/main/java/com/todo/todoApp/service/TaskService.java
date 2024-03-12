@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -41,5 +42,13 @@ public class TaskService {
         taskRepository.updateTaskAsFinished(id);
    }
 
-
+   public Task findTaskById(Long id) {
+        try {
+            Optional<Task> optionalTask = taskRepository.findById(id);
+            return optionalTask.get();
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+   }
 }

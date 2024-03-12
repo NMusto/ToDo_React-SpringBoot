@@ -30,9 +30,18 @@ public class TaskController {
         return this.taskService.findAllTasks();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findTaskById(@PathVariable Long id) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(taskService.findTaskById(id));
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Id does not exists!");
+        }
+    }
 
-    @GetMapping("/{taskStatus}")
-    public List<Task> findAllByTaskStatus(@PathVariable TaskStatus taskStatus) {
+    @GetMapping
+    public List<Task> findAllByTaskStatus(@RequestParam(value = "task_status") TaskStatus taskStatus) {
         return this.taskService.findAllByTaskStatus(taskStatus);
     }
 
@@ -41,7 +50,5 @@ public class TaskController {
         this.taskService.updateTaskAsFinished(id);
         return ResponseEntity.noContent().build();
     }
-
-
 }
 
