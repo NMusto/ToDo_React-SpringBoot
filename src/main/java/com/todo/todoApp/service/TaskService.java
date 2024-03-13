@@ -51,4 +51,19 @@ public class TaskService {
             throw new RuntimeException(e.getMessage());
         }
    }
+
+   public void deleteTaskById(Long id) {
+        try {
+            Optional<Task> optionalTask = taskRepository.findById(id);
+            if (optionalTask.isPresent()) {
+                taskRepository.deleteById(id);
+            }
+            else {
+                throw new RuntimeException("Task not found!");
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+   }
 }

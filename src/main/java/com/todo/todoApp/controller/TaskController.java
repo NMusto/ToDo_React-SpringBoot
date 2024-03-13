@@ -36,11 +36,11 @@ public class TaskController {
             return ResponseEntity.status(HttpStatus.OK).body(taskService.findTaskById(id));
         }
         catch (Exception e) {
-            throw new RuntimeException("Id does not exists!");
+            throw new RuntimeException("Task not found!");
         }
     }
 
-    @GetMapping
+    @GetMapping("/find_by_status")
     public List<Task> findAllByTaskStatus(@RequestParam(value = "task_status") TaskStatus taskStatus) {
         return this.taskService.findAllByTaskStatus(taskStatus);
     }
@@ -49,6 +49,17 @@ public class TaskController {
     public ResponseEntity<?> updateTaskAsFinished(@PathVariable("id") Long id) {
         this.taskService.updateTaskAsFinished(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteTaskById(@PathVariable Long id) {
+        try {
+            taskService.deleteTaskById(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }
 
