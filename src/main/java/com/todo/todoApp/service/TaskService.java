@@ -52,6 +52,26 @@ public class TaskService {
         }
    }
 
+   public Task updateTask(Long id, TaskInDTO taskInDTO) {
+        try {
+            Optional<Task> optionalTask = taskRepository.findById(id);
+            if (optionalTask.isPresent()) {
+                Task task = optionalTask.get();
+                task.setTitle(taskInDTO.getTitle());
+                task.setDescription(taskInDTO.getDescription());
+                task.setEta(taskInDTO.getEta());
+                return taskRepository.save(task);
+            }
+            else {
+                throw new RuntimeException("Task not found!");
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+   }
+
+
    public void deleteTaskById(Long id) {
         try {
             Optional<Task> optionalTask = taskRepository.findById(id);

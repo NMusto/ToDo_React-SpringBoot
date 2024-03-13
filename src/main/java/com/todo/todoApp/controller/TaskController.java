@@ -51,6 +51,16 @@ public class TaskController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/update_task/{id}")
+    public ResponseEntity<?> updateTask(@PathVariable Long id, @RequestBody TaskInDTO taskInDTO) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(taskService.updateTask(id, taskInDTO));
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteTaskById(@PathVariable Long id) {
         try {
