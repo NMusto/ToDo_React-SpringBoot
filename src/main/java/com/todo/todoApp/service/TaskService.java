@@ -1,15 +1,15 @@
 package com.todo.todoApp.service;
 
+import com.todo.todoApp.exceptions.InfoException;
 import com.todo.todoApp.mapper.TaskInDTOToTask;
 import com.todo.todoApp.persistence.entity.Task;
 import com.todo.todoApp.persistence.entity.TaskStatus;
 import com.todo.todoApp.persistence.repository.TaskRepository;
 import com.todo.todoApp.service.dto.TaskInDTO;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,57 +33,50 @@ public class TaskService {
         return this.taskRepository.findAll();
    }
 
+    public Task findTaskById(Long id) {
+        Optional<Task> optionalTask = taskRepository.findById(id);
+        if (optionalTask.isEmpty()) {
+            throw new InfoException("Task not found!", HttpStatus.NOT_FOUND);
+        }
+        return optionalTask.get();
+    }
+
    public List<Task> findAllByTaskStatus(TaskStatus taskStatus) {
-        return this.taskRepository.findAllByTaskStatus(taskStatus);
+        List<Task> taskList = this.taskRepository.findAllByTaskStatus(taskStatus);
+        if (taskList.isEmpty()) {
+            throw new InfoException("There are no tasks for this state!", HttpStatus.NOT_FOUND);
+        }
+        return taskList;
    }
 
    @Transactional
-   public void updateTaskAsFinished(Long id) {
-        taskRepository.updateTaskAsFinished(id);
-   }
-
-   public Task findTaskById(Long id) {
-        try {
-            Optional<Task> optionalTask = taskRepository.findById(id);
-            return optionalTask.get();
+   public String updateTaskFinished(Long id, boolean key) {
+        Optional<Task> optionalTask = taskRepository.findById(id);
+        if (optionalTask.isEmpty()) {
+            throw new InfoException("Task not found!", HttpStatus.NOT_FOUND);
         }
-        catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
+        taskRepository.updateTaskFinished(id, key);
+        return "Finished was successfully changed to: " + key;
    }
 
    public Task updateTask(Long id, TaskInDTO taskInDTO) {
-        try {
-            Optional<Task> optionalTask = taskRepository.findById(id);
-            if (optionalTask.isPresent()) {
-                Task task = optionalTask.get();
-                task.setTitle(taskInDTO.getTitle());
-                task.setDescription(taskInDTO.getDescription());
-                task.setEta(taskInDTO.getEta());
-                return taskRepository.save(task);
-            }
-            else {
-                throw new RuntimeException("Task not found!");
-            }
+        Optional<Task> optionalTask = taskRepository.findById(id);
+        if (optionalTask.isEmpty()) {
+            throw new InfoException("Task not found!", HttpStatus.NOT_FOUND);
         }
-        catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
+       Task task = optionalTask.get();
+       task.setTitle(taskInDTO.getTitle());
+       task.setDescription(taskInDTO.getDescription());
+       task.setEta(taskInDTO.getEta());
+       return taskRepository.save(task);
    }
 
-
-   public void deleteTaskById(Long id) {
-        try {
-            Optional<Task> optionalTask = taskRepository.findById(id);
-            if (optionalTask.isPresent()) {
-                taskRepository.deleteById(id);
-            }
-            else {
-                throw new RuntimeException("Task not found!");
-            }
+   public String deleteTaskById(Long id) {
+        Optional<Task> optionalTask = taskRepository.findById(id);
+        if (optionalTask.isEmpty()) {
+            throw new InfoException("Task not found!", HttpStatus.NOT_FOUND);
         }
-        catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
+        taskRepository.deleteById(id);
+        return "Task deleted!";
    }
 }
