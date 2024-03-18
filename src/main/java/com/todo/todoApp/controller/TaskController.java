@@ -1,5 +1,6 @@
 package com.todo.todoApp.controller;
 
+import com.todo.todoApp.Projections.ITaskOutProjection;
 import com.todo.todoApp.exceptions.InfoException;
 import com.todo.todoApp.persistence.entity.Task;
 import com.todo.todoApp.persistence.entity.TaskStatus;
@@ -28,7 +29,7 @@ public class TaskController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Task>> findAlTasks() {
+    public ResponseEntity<List<ITaskOutProjection>> findAlTasks() {
         return ResponseEntity.status(HttpStatus.OK).body(this.taskService.findAllTasks());
     }
 
@@ -38,7 +39,7 @@ public class TaskController {
     }
 
     @GetMapping("/find_by_status")
-    public ResponseEntity<List<Task>> findAllByTaskStatus(@RequestParam(value = "task_status") TaskStatus taskStatus) {
+    public ResponseEntity<List<ITaskOutProjection>> findAllByTaskStatus(@RequestParam(value = "task_status") TaskStatus taskStatus) {
         return ResponseEntity.status(HttpStatus.OK).body(this.taskService.findAllByTaskStatus(taskStatus));
     }
 

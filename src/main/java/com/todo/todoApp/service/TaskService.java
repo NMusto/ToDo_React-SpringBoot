@@ -1,5 +1,6 @@
 package com.todo.todoApp.service;
 
+import com.todo.todoApp.Projections.ITaskOutProjection;
 import com.todo.todoApp.exceptions.InfoException;
 import com.todo.todoApp.mapper.TaskInDTOToTask;
 import com.todo.todoApp.mapper.TaskToOutDTO;
@@ -33,8 +34,8 @@ public class TaskService {
         return this.taskRepository.save(task);
    }
 
-   public List<Task> findAllTasks() {
-        List<Task> taskList = this.taskRepository.findAll();
+   public List<ITaskOutProjection> findAllTasks() {
+        List<ITaskOutProjection> taskList = this.taskRepository.findAllBy();
        if (taskList.isEmpty()) {
            throw new InfoException("There are no task yet!", HttpStatus.NOT_FOUND);
        }
@@ -50,8 +51,8 @@ public class TaskService {
         return taskOutDTO;
     }
 
-   public List<Task> findAllByTaskStatus(TaskStatus taskStatus) {
-        List<Task> taskList = this.taskRepository.findAllByTaskStatus(taskStatus);
+   public List<ITaskOutProjection> findAllByTaskStatus(TaskStatus taskStatus) {
+        List<ITaskOutProjection> taskList = this.taskRepository.findAllByTaskStatus(taskStatus);
         if (taskList.isEmpty()) {
             throw new InfoException("There are no tasks for this state!", HttpStatus.NOT_FOUND);
         }
