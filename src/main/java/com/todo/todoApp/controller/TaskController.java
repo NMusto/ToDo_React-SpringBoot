@@ -5,6 +5,7 @@ import com.todo.todoApp.persistence.entity.Task;
 import com.todo.todoApp.persistence.entity.TaskStatus;
 import com.todo.todoApp.service.TaskService;
 import com.todo.todoApp.service.dto.TaskInDTO;
+import com.todo.todoApp.service.dto.TaskOutDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,12 +29,7 @@ public class TaskController {
 
     @GetMapping
     public ResponseEntity<List<Task>> findAlTasks() {
-
-        List<Task> taskList = this.taskService.findAllTasks();
-        if (taskList.isEmpty()) {
-            throw new InfoException("There are no task yet!", HttpStatus.NOT_FOUND);
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(taskList);
+        return ResponseEntity.status(HttpStatus.OK).body(this.taskService.findAllTasks());
     }
 
     @GetMapping("/{id}")
@@ -47,7 +43,7 @@ public class TaskController {
     }
 
     @PatchMapping("/update_task_finished/{id}")
-    public ResponseEntity<?> updateTaskFinished(@PathVariable("id") Long id, @RequestParam(value = "key") boolean key) {
+    public ResponseEntity<?> updateTaskFinished(@PathVariable("id") Long id, @RequestParam(value = "key") Boolean key) {
         return ResponseEntity.status(HttpStatus.OK).body(this.taskService.updateTaskFinished(id, key));
     }
 

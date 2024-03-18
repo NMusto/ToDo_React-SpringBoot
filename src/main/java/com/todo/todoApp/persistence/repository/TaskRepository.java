@@ -1,7 +1,9 @@
 package com.todo.todoApp.persistence.repository;
 
+import com.todo.todoApp.mapper.TaskToOutDTO;
 import com.todo.todoApp.persistence.entity.Task;
 import com.todo.todoApp.persistence.entity.TaskStatus;
+import com.todo.todoApp.service.dto.TaskOutDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,5 +19,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     @Modifying
     @Query(value = "update task set finished=:key where id=:id", nativeQuery = true)
-   public void updateTaskFinished(@Param("id") Long id, @Param("key") boolean key);
+   public void updateTaskFinished(@Param("id") Long id, @Param("key") Boolean key);
+
+
 }

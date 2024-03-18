@@ -2,10 +2,12 @@ package com.todo.todoApp.service;
 
 import com.todo.todoApp.exceptions.InfoException;
 import com.todo.todoApp.mapper.TaskInDTOToTask;
+import com.todo.todoApp.mapper.TaskToOutDTO;
 import com.todo.todoApp.persistence.entity.Task;
 import com.todo.todoApp.persistence.entity.TaskStatus;
 import com.todo.todoApp.persistence.repository.TaskRepository;
 import com.todo.todoApp.service.dto.TaskInDTO;
+import com.todo.todoApp.service.dto.TaskOutDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +20,12 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
     private final TaskInDTOToTask taskInDTOToTask;
+    private final TaskToOutDTO taskToOutDTO;
 
-    public TaskService(TaskRepository taskRepository, TaskInDTOToTask taskInDTOToTask) {
+    public TaskService(TaskRepository taskRepository, TaskInDTOToTask taskInDTOToTask, TaskToOutDTO taskToOutDTO) {
         this.taskRepository = taskRepository;
         this.taskInDTOToTask = taskInDTOToTask;
+        this.taskToOutDTO = taskToOutDTO;
     }
 
    public Task createTask(TaskInDTO taskInDTO) {
@@ -30,15 +34,20 @@ public class TaskService {
    }
 
    public List<Task> findAllTasks() {
-        return this.taskRepository.findAll();
+        List<Task> taskList = this.taskRepository.findAll();
+       if (taskList.isEmpty()) {
+           throw new InfoException("There are no task yet!", HttpStatus.NOT_FOUND);
+       }
+        return taskList;
    }
 
-    public Task findTaskById(Long id) {
+    public TaskOutDTO findTaskById(Long id) {
         Optional<Task> optionalTask = taskRepository.findById(id);
         if (optionalTask.isEmpty()) {
             throw new InfoException("Task not found!", HttpStatus.NOT_FOUND);
         }
-        return optionalTask.get();
+        TaskOutDTO taskOutDTO = taskToOutDTO.map(optionalTask.get());
+        return taskOutDTO;
     }
 
    public List<Task> findAllByTaskStatus(TaskStatus taskStatus) {
@@ -50,7 +59,7 @@ public class TaskService {
    }
 
    @Transactional
-   public String updateTaskFinished(Long id, boolean key) {
+   public String updateTaskFinished(Long id, Boolean key) {
         Optional<Task> optionalTask = taskRepository.findById(id);
         if (optionalTask.isEmpty()) {
             throw new InfoException("Task not found!", HttpStatus.NOT_FOUND);
@@ -59,7 +68,7 @@ public class TaskService {
         return "Finished was successfully changed to: " + key;
    }
 
-   public Task updateTask(Long id, TaskInDTO taskInDTO) {
+   public TaskOutDTO updateTask(Long id, TaskInDTO taskInDTO) {
         Optional<Task> optionalTask = taskRepository.findById(id);
         if (optionalTask.isEmpty()) {
             throw new InfoException("Task not found!", HttpStatus.NOT_FOUND);
@@ -68,7 +77,8 @@ public class TaskService {
        task.setTitle(taskInDTO.getTitle());
        task.setDescription(taskInDTO.getDescription());
        task.setEta(taskInDTO.getEta());
-       return taskRepository.save(task);
+       taskRepository.save(task);
+       return taskToOutDTO.map(task);
    }
 
    public String deleteTaskById(Long id) {

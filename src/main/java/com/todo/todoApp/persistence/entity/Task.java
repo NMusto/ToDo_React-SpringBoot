@@ -18,7 +18,8 @@ public class Task {
     private String description;
     private LocalDateTime creationDate;
     private LocalDateTime eta;
-    private boolean finished;
+    private Boolean finished;
+    @Column(name = "task_status")
     @Enumerated(EnumType.STRING)
     private TaskStatus taskStatus;
 }
