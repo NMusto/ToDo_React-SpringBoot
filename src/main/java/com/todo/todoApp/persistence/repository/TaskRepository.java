@@ -16,12 +16,14 @@ import java.util.List;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
-    public List<ITaskOutProjection> findAllByTaskStatus(TaskStatus taskStatus);
+    //List<ITaskOutProjection> findAllByTaskStatus(TaskStatus taskStatus);
 
     @Modifying
     @Query(value = "update task set finished=:key where id=:id", nativeQuery = true)
-   public void updateTaskFinished(@Param("id") Long id, @Param("key") Boolean key);
+    void updateTaskFinished(@Param("id") Long id, @Param("key") Boolean key);
 
-    public List<ITaskOutProjection> findAllBy();
+    List<ITaskOutProjection> findAllBy();
+
+    List<ITaskOutProjection> findAllByFinished(Boolean isFinished);
 
 }

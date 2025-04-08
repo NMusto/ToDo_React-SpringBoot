@@ -15,11 +15,7 @@ public class TaskInDTOToTask implements IMapper<TaskInDTO, Task>{
         Task task = new Task();
 
         task.setTitle(in.getTitle());
-        task.setDescription(in.getDescription());
-        task.setEta(in.getEta());
-        task.setCreationDate(LocalDateTime.now());
         task.setFinished(false);
-        task.setTaskStatus(TaskStatus.ON_TIME);
         return task;
     }
 }

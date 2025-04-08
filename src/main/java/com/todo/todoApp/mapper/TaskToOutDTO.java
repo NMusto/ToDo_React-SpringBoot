@@ -12,10 +12,7 @@ public class TaskToOutDTO implements IMapper<Task, TaskOutDTO> {
         TaskOutDTO taskOutDTO = new TaskOutDTO();
 
         taskOutDTO.setTitle(task.getTitle());
-        taskOutDTO.setDescription(task.getDescription());
-        taskOutDTO.setEta(task.getEta());
         taskOutDTO.setFinished(task.getFinished());
-        taskOutDTO.setTaskStatus(task.getTaskStatus());
 
         return taskOutDTO;
     }
