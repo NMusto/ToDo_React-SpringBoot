@@ -1,11 +1,9 @@
 package com.todo.todoApp.exceptions;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 
-@Data
+@Getter @Setter
 @AllArgsConstructor
 public class ErrorResponse {
     private String message;

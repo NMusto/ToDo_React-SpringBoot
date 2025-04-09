@@ -5,7 +5,6 @@ import com.todo.todoApp.exceptions.InfoException;
 import com.todo.todoApp.mapper.TaskInDTOToTask;
 import com.todo.todoApp.mapper.TaskToOutDTO;
 import com.todo.todoApp.persistence.entity.Task;
-import com.todo.todoApp.persistence.entity.TaskStatus;
 import com.todo.todoApp.persistence.repository.TaskRepository;
 import com.todo.todoApp.service.dto.TaskInDTO;
 import com.todo.todoApp.service.dto.TaskOutDTO;
@@ -48,13 +47,6 @@ public class TaskService {
         return taskOutDTO;
     }
 
-//   public List<ITaskOutProjection> findAllByTaskStatus(TaskStatus taskStatus) {
-//        List<ITaskOutProjection> taskList = this.taskRepository.findAllByTaskStatus(taskStatus);
-//        if (taskList.isEmpty()) {
-//            throw new InfoException("There are no tasks for this state!", HttpStatus.NOT_FOUND);
-//        }
-//        return taskList;
-//   }
 
    @Transactional
    public String updateTaskFinished(Long id, Boolean key) {

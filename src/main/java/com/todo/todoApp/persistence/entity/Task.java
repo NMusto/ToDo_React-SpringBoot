@@ -16,12 +16,4 @@ public class Task {
     private Long id;
     private String title;
     private Boolean finished;
-
-//    private String description;
-//    private LocalDateTime creationDate;
-//    private LocalDateTime eta;
-//
-//    @Column(name = "task_status")
-//    @Enumerated(EnumType.STRING)
-//    private TaskStatus taskStatus;
 }
