@@ -9,10 +9,11 @@ public class TaskInDTOToTask implements IMapper<TaskInDTO, Task>{
 
     @Override
     public Task map(TaskInDTO in) {
-        Task task = new Task();
+        Task task = Task.builder()
+                .title(in.getTitle())
+                .finished(false)
+                .build();
 
-        task.setTitle(in.getTitle());
-        task.setFinished(false);
         return task;
     }
 }
