@@ -252,7 +252,7 @@ public class TaskServiceTest {
     }
 
     @Test
-    void deleteTaskByIdTest_SuccessfulDelet() {
+    void deleteTaskByIdTest_SuccessfulDeletion() {
 
         // Arrange
         Long id = 1L;
