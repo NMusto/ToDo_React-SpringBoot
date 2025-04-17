@@ -13,8 +13,8 @@ import java.util.List;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
-    @Modifying
-    @Query(value = "update task set finished=:key where id=:id", nativeQuery = true)
+    @Modifying(clearAutomatically = true) // Caché clearing for the test updateTaskFinished_WhenExists()
+    @Query("UPDATE Task t set t.finished = :key WHERE t.id = :id")
     void updateTaskFinished(@Param("id") Long id, @Param("key") Boolean key);
 
     List<ITaskOutProjection> findAllBy();

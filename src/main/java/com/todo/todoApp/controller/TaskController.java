@@ -4,6 +4,7 @@ import com.todo.todoApp.Projections.ITaskOutProjection;
 import com.todo.todoApp.persistence.entity.Task;
 import com.todo.todoApp.service.TaskService;
 import com.todo.todoApp.service.dto.TaskInDTO;
+import com.todo.todoApp.service.dto.TaskOutDTO;
 import com.todo.todoApp.service.dto.UpdateTaskDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -55,7 +56,7 @@ public class TaskController {
             summary = "Get task by id",
             description = "Retrieves the details of a specific task using its id"
     )
-    public ResponseEntity<?> findTaskById (
+    public ResponseEntity<TaskOutDTO> findTaskById (
             @Parameter(
                     description = "Id of the task to retrieve",
                     required = true
@@ -86,7 +87,7 @@ public class TaskController {
             summary = "Update task status",
             description = "Allows changing the 'isFinished' status of a task by its id"
     )
-    public ResponseEntity<?> updateTaskFinished (
+    public ResponseEntity<String> updateTaskFinished (
             @Parameter(
                     description = "Id of the task to be updated",
                     required = true,
@@ -110,7 +111,7 @@ public class TaskController {
             summary = "Update an existing task",
             description = "Updates the details of a task by its id using the provided data in the request body"
     )
-    public ResponseEntity<?> updateTask(
+    public ResponseEntity<TaskOutDTO> updateTask(
             @Parameter(
                     description = "Id of the task to be updated",
                     required = true,
@@ -132,7 +133,7 @@ public class TaskController {
         summary = "Delete a task by id",
         description = "Deletes de task from the system using its id"
     )
-    public ResponseEntity<?> deleteTaskById(
+    public ResponseEntity<String> deleteTaskById(
             @Parameter(
                     description = "Id of the task to be deleted",
                     required = true
