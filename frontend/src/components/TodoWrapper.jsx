@@ -68,7 +68,7 @@ const TodoWrapper = () => {
 
   return (
     <div className='TodoWrapper'>
-        <h1>To Do List</h1>
+        <h1>To Do</h1>
         <TodoForm handleAddTodo={handleAddTodo} />
         {todos.filter(todo => !todo.finished).map(todo => (
             todo.isEditing ? (
